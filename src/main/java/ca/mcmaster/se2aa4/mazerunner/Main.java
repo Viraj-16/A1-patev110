@@ -2,6 +2,9 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.cli.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,4 +58,76 @@ public class Main {
 
         logger.info("End of Maze Runner");
     }
+}
+
+
+// Represents a point in the maze
+class Point {
+    int x, y;
+    
+    Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+enum Direction {
+    UP, RIGHT, DOWN, LEFT;
+
+    public Direction turnRight() {
+        // TODO: Implement right turn logic
+        return this;
+    }
+
+    public Direction turnLeft() {
+        // TODO: Implement left turn logic
+        return this;
+    }
+}
+
+// Maze representation class
+class Maze {
+    private char[][] grid;
+    private Point entryPoint;
+    private Point exitPoint;
+
+    // Constructor to read maze from file
+    public Maze(String inputFile) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
+            List<String> lines = new ArrayList<>();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+            
+            // Convert to 2D grid
+            grid = new char[lines.size()][];
+            for (int i = 0; i < lines.size(); i++) {
+                grid[i] = lines.get(i).toCharArray();
+            }
+
+            // TODO: Implement entry and exit point identification
+            findEntryAndExit();
+        } catch (Exception e) {
+            throw new RuntimeException("Error reading maze file", e);
+        }
+    }
+
+    // Method to find entry and exit points
+    private void findEntryAndExit() {
+        // TODO: Implement logic to find entry and exit points
+    }
+
+    // Utility methods
+    public char getCell(Point p) {
+        return grid[p.y][p.x];
+    }
+
+    public boolean isWall(Point p) {
+        return getCell(p) == '#';
+    }
+
+    // Getters for entry and exit points
+    public Point getEntryPoint() { return entryPoint; }
+    public Point getExitPoint() { return exitPoint; }
 }
