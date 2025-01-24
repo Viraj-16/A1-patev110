@@ -131,3 +131,57 @@ class Maze {
     public Point getEntryPoint() { return entryPoint; }
     public Point getExitPoint() { return exitPoint; }
 }
+
+// navigate the maze
+class Explorer {
+    private Point position;
+    private Direction facing;
+    private Maze maze;
+
+    public Explorer(Maze maze) {
+        this.maze = maze;
+        this.position = maze.getEntryPoint();
+        
+        // TODO: Set initial facing direction based on entry point
+    }
+
+    public void turnRight() {
+        // TODO: Implement right turn
+    }
+
+    public void turnLeft() {
+        // TODO: Implement left turn
+    }
+
+    public boolean moveForward() {
+        // TODO: Implement move forward logic
+        // Check if next cell is a wall
+        return false;
+    }
+
+    // Getters
+    public Point getPosition() { return position; }
+    public Direction getFacing() { return facing; }
+
+    public boolean isAtExit() {
+        // TODO: Implement exit check
+        return false;
+    }
+}
+
+// Path finding class
+class PathFinder {
+    private Maze maze;
+    private Explorer explorer;
+
+    public PathFinder(Maze maze, Explorer explorer) {
+        this.maze = maze;
+        this.explorer = explorer;
+    }
+
+    public String findPath() {
+        // TODO: Implement path finding algorithm
+        // Placeholder implementation
+        return "";
+    }
+}
