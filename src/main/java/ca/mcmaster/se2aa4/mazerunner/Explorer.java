@@ -6,21 +6,26 @@ class Explorer {
     private Maze maze;
 
     public Explorer(Maze maze) {
-        
+        this.maze = maze;
+        this.position = maze.getEntryPoint();
+        this.facing = Direction.RIGHT;
     }
 
     public void turnRight() {
-        
+        facing = facing.turnRight();
     }
 
     public void turnLeft() {
-        
+        facing = facing.turnLeft();
     }
 
     public boolean moveForward() {
         Point nextPosition = getNextPosition();
-            return false;
-        
+        if (!maze.isWall(nextPosition)) {
+            position = nextPosition;
+            return true;
+        }
+        return false;
     }
 
     private Point getNextPosition() {
