@@ -45,6 +45,20 @@ class Maze {
 
     public Maze(String inputFile) {
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
+            List<String> lines = new ArrayList<>();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+
+            grid = new char[lines.size()][];
+            for (int i = 0; i < lines.size(); i++) {
+                grid[i] = lines.get(i).toCharArray();
+            }
+
+            findEntryAndExit();
+        } catch (Exception e) {
+            throw new RuntimeException("Error reading maze file", e);
         }
     }
 
