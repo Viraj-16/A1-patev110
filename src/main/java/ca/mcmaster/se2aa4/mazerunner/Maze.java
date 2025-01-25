@@ -63,7 +63,12 @@ class Maze {
     }
 
     private void findEntryAndExit() {
-        
+        for (int y = 0; y < grid.length; y++) {
+            for (int x = 0; x < grid[y].length; x++) {
+                if (grid[y][x] == 'E') entryPoint = new Point(x, y);
+                if (grid[y][x] == 'X') exitPoint = new Point(x, y);
+            }
+        }
     }
 
     public char getCell(Point p) {
