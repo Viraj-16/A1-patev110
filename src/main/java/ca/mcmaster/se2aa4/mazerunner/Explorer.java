@@ -29,7 +29,13 @@ class Explorer {
     }
 
     private Point getNextPosition() {
-            return position;
+        switch (facing) {
+            case UP: return new Point(position.x, position.y - 1);
+            case RIGHT: return new Point(position.x + 1, position.y);
+            case DOWN: return new Point(position.x, position.y + 1);
+            case LEFT: return new Point(position.x - 1, position.y);
+        }
+        return position;
     }
 
     public Point getPosition() { return position; }
@@ -51,7 +57,17 @@ class PathFinder {
     }
 
     public String findPath() {
-            return null;
+        StringBuilder path = new StringBuilder();
 
+        while (!explorer.isAtExit()) {
+            if (explorer.moveForward()) {
+                path.append("F");
+            } else {
+                explorer.turnRight();
+                path.append("R");
+            }
+        }
+
+        return path.toString();
     }
 }
