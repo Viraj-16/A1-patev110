@@ -1,92 +1,51 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
 
-class Point {
-    int x, y;
-
-    Point(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+enum Orientation {
+    UP, RIGHT, DOWN, LEFT
 }
 
-enum Direction {
-    UP, RIGHT, DOWN, LEFT;
+public class Maze {
+    private ArrayList<ArrayList<String>> grid;
 
-    public Direction turnRight() {
-        switch (this) {
-            case UP: return RIGHT;
-            case RIGHT: return DOWN;
-            case DOWN: return LEFT;
-            case LEFT: return UP;
-        }
-        return this;
+    public Maze(String filePath) throws FileNotFoundException {
+        this.grid = Reader.read(filePath);
     }
 
-    public Direction turnLeft() {
-        switch (this) {
-            case UP: return LEFT;
-            case LEFT: return DOWN;
-            case DOWN: return RIGHT;
-            case RIGHT: return UP;
-        }
-        return this;
-    }
-}
-
-class Maze {
-    private char[][] grid;
-    private Point entryPoint;
-    private Point exitPoint;
-
-    public Maze(String inputFile) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
-            List<String> lines = new ArrayList<>();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                lines.add(line);
-            }
-
-            grid = new char[lines.size()][];
-            for (int i = 0; i < lines.size(); i++) {
-                grid[i] = lines.get(i).toCharArray();
-            }
-
-            findEntryAndExit();
-        } catch (Exception e) {
-            throw new RuntimeException("Error reading maze file", e);
-        }
+    public String validateUserPath(String userPath) {
+        Coordinate[] entryPoints = locateEntryPoints();
+        return Verifier.verifyPath(userPath, grid, entryPoints);
     }
 
-    private void findEntryAndExit() {
-        for (int y = 0; y < grid.length; y++) {
-            if (grid[y][0] == ' ') {
-                entryPoint = new Point(0, y);
-                break;
+    // Generates a path using the Right-Hand Rule
+    public String[] generateSolutions() {
+        Coordinate[] entryPoints = locateEntryPoints();
+        MazeSolver solver = new RightHand();
+        return solver.solveMaze(grid, entryPoints[0], entryPoints[1]);
+    }
+
+    // Identifies the maze entry and exit points
+    private Coordinate[] locateEntryPoints() {
+        return new Coordinate[]{findOpenPosition(0), findOpenPosition(grid.get(0).size() - 1)};
+    }
+
+    private Coordinate findOpenPosition(int columnIndex) {
+        ArrayList<String> columnData = extractColumnData(columnIndex);
+        for (int row = 0; row < columnData.size(); row++) {
+            if (!columnData.get(row).equals("W")) {
+                return new Coordinate(columnIndex, row);
             }
         }
-    
-        for (int y = 0; y < grid.length; y++) {
-            if (grid[y][grid[0].length - 1] == ' ') {
-                exitPoint = new Point(grid[0].length - 1, y);
-                break;
-            }
+        return new Coordinate(0, 0); // Default coordinate if no entry is found
+    }
+
+    private ArrayList<String> extractColumnData(int columnIndex) {
+        ArrayList<String> columnData = new ArrayList<>();
+        for (ArrayList<String> row : grid) {
+            columnData.add(row.get(columnIndex));
         }
+        return columnData;
     }
-
-    public char getCell(Point p) {
-        return grid[p.y][p.x];
-    }
-
-    public boolean isWall(Point p) {
-        return getCell(p) == '#';
-    }
-
-    public Point getEntryPoint() { return entryPoint; }
-
-    public Point getExitPoint() { return exitPoint; }
 }
