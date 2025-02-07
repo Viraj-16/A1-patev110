@@ -11,34 +11,32 @@ public class Maze {
     private ArrayList<ArrayList<String>> grid;
 
     public Maze(String filePath) throws FileNotFoundException {
-        this.grid = Reader.read(filePath);
+        this.grid = MazeLoad.loadMaze(filePath);
     }
 
     public String validateUserPath(String userPath) {
-        Coordinate[] entryPoints = locateEntryPoints();
-        return Verifier.verifyPath(userPath, grid, entryPoints);
+        Position[] entryPoints = locateEntryPoints();
+        return PathVerifier.verifyPath(userPath, grid, entryPoints[0], entryPoints[1]);
     }
 
-    // Generates a path using the Right-Hand Rule
     public String[] generateSolutions() {
-        Coordinate[] entryPoints = locateEntryPoints();
-        MazeSolver solver = new RightHand();
-        return solver.solveMaze(grid, entryPoints[0], entryPoints[1]);
+        Position[] entryPoints = locateEntryPoints();
+        SolveMaze solver = new RightHandSolver();
+        return solver.findPath(grid, entryPoints[0], entryPoints[1]);
     }
 
-    // Identifies the maze entry and exit points
-    private Coordinate[] locateEntryPoints() {
-        return new Coordinate[]{findOpenPosition(0), findOpenPosition(grid.get(0).size() - 1)};
+    private Position[] locateEntryPoints() {
+        return new Position[]{findOpenPosition(0), findOpenPosition(grid.get(0).size() - 1)};
     }
 
-    private Coordinate findOpenPosition(int columnIndex) {
+    private Position findOpenPosition(int columnIndex) {
         ArrayList<String> columnData = extractColumnData(columnIndex);
         for (int row = 0; row < columnData.size(); row++) {
             if (!columnData.get(row).equals("W")) {
-                return new Coordinate(columnIndex, row);
+                return new Position(columnIndex, row);
             }
         }
-        return new Coordinate(0, 0); // Default coordinate if no entry is found
+        return new Position(0, 0);
     }
 
     private ArrayList<String> extractColumnData(int columnIndex) {

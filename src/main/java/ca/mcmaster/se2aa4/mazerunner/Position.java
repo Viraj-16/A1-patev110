@@ -1,20 +1,20 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 public class Position {
-    int x;
-    int y;
+    private int x;
+    private int y;
 
-    public Coordinate(int xCoordinate, int yCoordinate) {
+    public Position(int xCoordinate, int yCoordinate) {
         this.x = xCoordinate;
         this.y = yCoordinate;
     }
 
     public int getX() {
-        return this.x;
+        return x;
     }
 
     public int getY() {
-        return this.y;
+        return y;
     }
 
     public void setX(int newX) {
@@ -25,8 +25,7 @@ public class Position {
         this.y = newY;
     }
 
-    // Checks if two coordinates are equivalent
-    public static boolean areEqual(Coordinate c1, Coordinate c2) {
-        return (c1.getX() == c2.getX()) && (c1.getY() == c2.getY());
+    public static boolean areEqual(Position p1, Position p2) {
+        return (p1.getX() == p2.getX()) && (p1.getY() == p2.getY());
     }
 }

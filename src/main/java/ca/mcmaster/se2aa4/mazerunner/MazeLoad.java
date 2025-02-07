@@ -6,12 +6,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class MazeLoad {
-    private static final Logger logger = LogManager.getLogger(Reader.class);
+    private static final Logger logger = LogManager.getLogger(MazeLoad.class);
 
-    // Reads a maze file and converts it into a 2D list representation
     public static ArrayList<ArrayList<String>> loadMaze(String filename) {
         ArrayList<ArrayList<String>> mazeGrid = new ArrayList<>();
-        
+
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -22,18 +21,17 @@ public class MazeLoad {
         } catch (IOException e) {
             logger.error("Error reading the maze file: " + filename);
         }
-        
+
         return mazeGrid;
     }
 
-    // Parses a single line of the maze into a list of symbols
     private static ArrayList<String> parseMazeLine(String line) {
         ArrayList<String> row = new ArrayList<>();
-        
+
         for (char cell : line.toCharArray()) {
             row.add(cell == '#' ? "W" : "P");
         }
-        
+
         return row;
     }
 }

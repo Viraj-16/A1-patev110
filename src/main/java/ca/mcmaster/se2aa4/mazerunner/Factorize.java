@@ -1,7 +1,6 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 public class Factorize {
-    // Converts an unfactorized path (e.g., "FFFFF") to a factorized form (e.g., "5F")
     public static String factorizePath(String input) {
         if (input == null || input.isEmpty()) {
             return "";
@@ -30,7 +29,6 @@ public class Factorize {
         return (count > 1) ? count + String.valueOf(direction) + " " : direction + " ";
     }
 
-    // Converts a factorized path (e.g., "5F") back to its unfactorized form (e.g., "FFFFF")
     public static String unfactorizePath(String input) {
         if (input == null || input.isEmpty()) {
             return "";
