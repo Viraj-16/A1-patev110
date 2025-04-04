@@ -1,6 +1,7 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PathVerifier {
     public static boolean[] validatePathFormat(String userPath) {
@@ -22,17 +23,23 @@ public class PathVerifier {
     }
 
     private static boolean simulatePath(String userPath, ArrayList<ArrayList<String>> mazeGrid, Position start, Position end) {
-        Position current = new Position(start.getX(), start.getY());
-        Orientation direction = (start.getX() < end.getX()) ? Orientation.RIGHT : Orientation.LEFT;
-
-        for (char move : userPath.toCharArray()) {
-            direction = executeMove(mazeGrid, current, direction, move);
-            if (Position.areEqual(current, end)) {
+    // Determine initial orientation based on start and end positions
+        Orientation initialOrientation = (start.getX() < end.getX()) ? Orientation.RIGHT : Orientation.LEFT;
+        MazeInfo info = new MazeInfo(new Position(start.getX(), start.getY()), initialOrientation);
+        
+        // Parse the userPath into a list of commands
+        List<MazeCommand> commands = CommandParser.parseCommands(userPath);
+        
+        // Execute each command sequentially
+        for (MazeCommand command : commands) {
+            command.execute(info, mazeGrid);
+            if (Position.areEqual(info.getCurrentPosition(), end)) {
                 return true;
             }
         }
         return false;
     }
+
 
     private static Orientation executeMove(ArrayList<ArrayList<String>> mazeGrid, Position current, Orientation direction, char move) {
         switch (move) {
