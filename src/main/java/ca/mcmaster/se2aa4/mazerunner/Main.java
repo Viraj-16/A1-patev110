@@ -15,7 +15,10 @@ public class Main {
             String userPath = cmd.getOptionValue("p", "");
             String method = cmd.getOptionValue("method", "righthand");
 
-            Maze maze = new Maze(inputFile);
+            // Use the factory to get the desired maze solver
+            SolveMaze solver = MazeSolverFactory.getMazeSolver(method);
+            Maze maze = new Maze(inputFile, solver);
+            
             if (!userPath.isEmpty()) {
                 validateAndCheckPath(maze, userPath);
             } else {

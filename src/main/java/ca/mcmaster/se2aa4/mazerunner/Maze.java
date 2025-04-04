@@ -9,9 +9,11 @@ enum Orientation {
 
 public class Maze {
     private ArrayList<ArrayList<String>> grid;
+    private SolveMaze solver; 
 
-    public Maze(String filePath) throws FileNotFoundException {
+    public Maze(String filePath, SolveMaze solver) throws FileNotFoundException {
         this.grid = MazeLoad.loadMaze(filePath);
+        this.solver = solver;
     }
 
     public String validateUserPath(String userPath) {
@@ -21,7 +23,6 @@ public class Maze {
 
     public String[] generateSolutions() {
         Position[] entryPoints = locateEntryPoints();
-        SolveMaze solver = new RightHandSolver();
         return solver.findPath(grid, entryPoints[0], entryPoints[1]);
     }
 
