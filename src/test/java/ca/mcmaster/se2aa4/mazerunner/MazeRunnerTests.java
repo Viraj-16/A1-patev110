@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MazeRunnerTests {
 
