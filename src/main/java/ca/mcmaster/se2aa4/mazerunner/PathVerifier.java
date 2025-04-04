@@ -52,10 +52,17 @@ public class PathVerifier {
     }
 
     private static boolean canAdvance(ArrayList<ArrayList<String>> mazeGrid, Position current, Orientation direction) {
-        int nextX = current.getX() + (direction == Orientation.RIGHT ? 1 : direction == Orientation.LEFT ? -1 : 0);
-        int nextY = current.getY() + (direction == Orientation.DOWN ? 1 : direction == Orientation.UP ? -1 : 0);
-        return !mazeGrid.get(nextY).get(nextX).equals("W");
+    int nextX = current.getX() + (direction == Orientation.RIGHT ? 1 : direction == Orientation.LEFT ? -1 : 0);
+    int nextY = current.getY() + (direction == Orientation.DOWN ? 1 : direction == Orientation.UP ? -1 : 0);
+
+    //bounds check
+    if (nextY < 0 || nextY >= mazeGrid.size() || nextX < 0 || nextX >= mazeGrid.get(0).size()) {
+        return false;
     }
+
+    return !mazeGrid.get(nextY).get(nextX).equals("W");
+}
+
 
     private static void updatePosition(Position current, Orientation direction) {
         current.setX(current.getX() + (direction == Orientation.RIGHT ? 1 : direction == Orientation.LEFT ? -1 : 0));

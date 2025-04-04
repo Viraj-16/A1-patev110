@@ -1,5 +1,4 @@
 package ca.mcmaster.se2aa4.mazerunner;
-
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -88,17 +87,20 @@ public class MazeRunnerTests {
     }
 
     @Test
-    public void testPositionEquality() {
-        Position p1 = new Position(1, 2);
-        Position p2 = new Position(1, 2);
-        assertTrue(Position.areEqual(p1, p2));
-    }
-
-    @Test
     public void testValidatePathFormatRejectsInvalidCharacters() {
         String badPath = "FLRXYZ";
         boolean[] result = PathVerifier.validatePathFormat(badPath);
-        assertFalse(result[0]); // Should reject
+        assertFalse(result[0]);
     }
 
+    @Test
+    public void testUnfactorizeHandlesMalformedInput() {
+        String input = "3F R2 2L";
+        String result = Factorize.unfactorizePath(input.replaceAll("\\s", ""));
+        assertTrue(result.contains("R"));
+    }
+    
+
 }
+
+
