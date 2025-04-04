@@ -27,10 +27,8 @@ public class PathVerifier {
         Orientation initialOrientation = (start.getX() < end.getX()) ? Orientation.RIGHT : Orientation.LEFT;
         MazeInfo info = new MazeInfo(new Position(start.getX(), start.getY()), initialOrientation);
         
-        // Parse the userPath into a list of commands
         List<MazeCommand> commands = CommandParser.parseCommands(userPath);
         
-        // Execute each command sequentially
         for (MazeCommand command : commands) {
             command.execute(info, mazeGrid);
             if (Position.areEqual(info.getCurrentPosition(), end)) {

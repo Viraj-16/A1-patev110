@@ -18,7 +18,6 @@ public class CommandParser {
                     commands.add(new RotateRightCommand());
                     break;
                 default:
-                    // Optionally log or ignore invalid characters
                     break;
             }
         }

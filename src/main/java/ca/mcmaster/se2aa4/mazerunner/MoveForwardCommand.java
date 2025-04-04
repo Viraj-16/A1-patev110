@@ -11,7 +11,6 @@ public class MoveForwardCommand implements MazeCommand {
         int newX = current.getX() + (direction == Orientation.RIGHT ? 1 : direction == Orientation.LEFT ? -1 : 0);
         int newY = current.getY() + (direction == Orientation.DOWN ? 1 : direction == Orientation.UP ? -1 : 0);
         
-        // Check if new position is within bounds and not a wall
         if (newY >= 0 && newY < mazeGrid.size() &&
             newX >= 0 && newX < mazeGrid.get(0).size() &&
             !mazeGrid.get(newY).get(newX).equals("W")) {
